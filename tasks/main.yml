@@ -1,0 +1,86 @@
+# SPDX-License-Identifier: MIT
+---
+- name: Create ERPNext dir
+  become: true
+  become_user: podman
+  ansible.builtin.file:
+    path: /docker/erpnext
+    state: directory
+    mode: "2770"
+
+- name: Create ERPNext data directories
+  become: true
+  become_user: podman
+  loop:
+    - /docker/erpnext/sites
+    - /docker/erpnext/logs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "2777"
+
+- name: Store ERPNext secrets
+  become: true
+  become_user: podman
+  loop:
+    - name: erpnext_mysql_user_pw
+      data: "{{ erpnext_mysql_user_pw }}"
+    - name: erpnext_mysql_root_pw
+      data: "{{ erpnext_mysql_root_pw }}"
+  containers.podman.podman_secret:
+    state: present
+    name: "{{ item.name }}"
+    data: "{{ item.data }}"
+  notify:
+    - Systemd user daemon-reload
+    - Restart ERPNext service
+
+- name: Copy ERPNext systemd service file
+  become: true
+  become_user: podman
+  ansible.builtin.copy:
+    src: erpnext.service
+    dest: /docker/systemd/services/erpnext.service
+    mode: "0640"
+  notify:
+    - Systemd user daemon-reload
+    - Restart ERPNext service
+
+- name: Copy static ERPNext systemd files
+  become: true
+  become_user: podman
+  loop:
+    - erpnext-create-site.container
+    - erpnext-frontend.container
+    - erpnext-redis-cache.container
+    - erpnext-redis-queue.volume
+    - erpnext.network
+    - erpnext-backend.container
+    - erpnext-db.container
+    - erpnext-queue-long.container
+    - erpnext-redis-cache.volume
+    - erpnext-scheduler.container
+    - erpnext-configurator.container
+    - erpnext-db.volume
+    - erpnext-queue-short.container
+    - erpnext-redis-queue.container
+    - erpnext-websocket.container
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/docker/systemd/containers/{{ item }}"
+    mode: "0640"
+  notify:
+    - Systemd user daemon-reload
+    - Restart ERPNext service
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Activate ERPNext service
+  become: true
+  become_user: podman
+  ansible.builtin.systemd_service:
+    scope: user
+    name: erpnext
+    enabled: true
+    state: started

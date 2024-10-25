@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: MIT
+[Unit]
+BindsTo=erpnext.service
+After=erpnext.service
+
+[Container]
+PodmanArgs=--pod-id-file=%t/erpnext.pod-id
+Image=docker.io/library/mariadb:10.6
+ContainerName=erpnext-db
+Volume=erpnext-db:/var/lib/mysql
+HealthCmd=mysqladmin ping -h localhost --password=$$MYSQL_ROOT_PASSWORD || exit 1
+HealthInterval=15s
+HealthStartPeriod=20s
+HealthRetries=5
+HealthTimeout=5s
+Network=erpnext.network:alias=db
+Secret=erpnext_mysql_root_pw,type=env,target=MYSQL_ROOT_PASSWORD
+Secret=erpnext_mysql_user_pw,type=env,target=DB_PASSWORD
+Exec=--character-set-server=utf8mb4 \
+  --collation-server=utf8mb4_unicode_ci \
+  --skip-character-set-client-handshake \
+  --skip-innodb-read-only-compressed
+  # Last one is temporary fix for MariaDB 10.6
+
+[Service]
+Restart=on-failure

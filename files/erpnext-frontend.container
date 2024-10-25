@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: MIT
+[Unit]
+BindsTo=erpnext.service
+After=erpnext.service erpnext-websocket.service
+Requires=erpnext-websocket.service
+
+[Container]
+PodmanArgs=--pod-id-file=%t/erpnext.pod-id
+Image=docker.io/frappe/erpnext:v15.39.3
+ContainerName=erpnext-frontend
+Exec=nginx-entrypoint.sh
+Volume=/docker/erpnext/sites:/home/frappe/frappe-bench/sites:z
+Volume=/docker/erpnext/logs:/home/frappe/frappe-bench/logs:z
+Network=erpnext.network:alias=frontend
+Network=traefik.network:alias=erpnext
+Environment=BACKEND=backend:8000
+Environment=FRAPPE_SITE_NAME_HEADER=frontend
+Environment=SOCKETIO=websocket:9000
+Environment=UPSTREAM_REAL_IP_ADDRESS=127.0.0.1
+Environment=UPSTREAM_REAL_IP_HEADER=X-Forwarded-For
+Environment=UPSTREAM_REAL_IP_RECURSIVE="off"
+Environment=PROXY_READ_TIMEOUT=120
+Environment=CLIENT_MAX_BODY_SIZE=50m
+Label="traefik.enable=true"
+Label="traefik.http.routers.erpnext.rule=Host(`erpnext.syme.biz`)"
+Label="traefik.http.routers.erpnext.entrypoints=websecure"
+Label="traefik.http.services.erpnext-websecure.loadbalancer.server.port=8080"
+
+[Service]
+Restart=on-failure

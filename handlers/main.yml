@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: MIT
+---
+- name: Systemd user daemon-reload
+  become: true
+  become_user: podman
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: user
+
+- name: Restart ERPNext service
+  become: true
+  become_user: podman
+  ansible.builtin.systemd_service:
+    scope: user
+    name: erpnext
+    enabled: true
+    state: restarted

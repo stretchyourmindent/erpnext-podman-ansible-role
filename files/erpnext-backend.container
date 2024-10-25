@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: MIT
+[Unit]
+BindsTo=erpnext.service
+After=erpnext.service
+
+[Container]
+PodmanArgs=--pod-id-file=%t/erpnext.pod-id
+Image=docker.io/frappe/erpnext:v15.39.3
+ContainerName=erpnext-backend
+Volume=/docker/erpnext/sites:/home/frappe/frappe-bench/sites:z
+Volume=/docker/erpnext/logs:/home/frappe/frappe-bench/logs:z
+Network=erpnext.network:alias=backend
+
+[Service]
+Restart=on-failure

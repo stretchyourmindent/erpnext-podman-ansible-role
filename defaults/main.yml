@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: MIT
+---
+
+# tr -dc A-Za-z0-9 </dev/urandom | head -c 20 | ansible-vault encrypt_string --stdin-name 'erpnext_mysql_user_pw'
+erpnext_mysql_user_pw: admin
+
+# tr -dc A-Za-z0-9 </dev/urandom | head -c 20 | ansible-vault encrypt_string --stdin-name 'erpnext_mysql_root_pw'
+erpnext_mysql_root_pw: admin

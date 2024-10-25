@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: MIT
+[Unit]
+BindsTo=erpnext.service
+After=erpnext.service
+
+[Container]
+PodmanArgs=--pod-id-file=%t/erpnext.pod-id
+Image=docker.io/library/redis:6.2-alpine
+ContainerName=erpnext-redis-cache
+Volume=erpnext-redis-cache:/data
+HealthCmd=redis-cli ping | grep PONG || exit 1
+HealthInterval=30s
+HealthStartPeriod=20s
+HealthRetries=5
+HealthTimeout=3s
+Network=erpnext.network:alias=redis-cache
+
+[Service]
+Restart=on-failure
