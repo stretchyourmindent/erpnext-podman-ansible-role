@@ -23,8 +23,8 @@
   become: true
   become_user: podman
   loop:
-    - name: erpnext_mysql_user_pw
-      data: "{{ erpnext_mysql_user_pw }}"
+    # - name: erpnext_mysql_user_pw
+    #   data: "{{ erpnext_mysql_user_pw }}"
     - name: erpnext_mysql_root_pw
       data: "{{ erpnext_mysql_root_pw }}"
   containers.podman.podman_secret:

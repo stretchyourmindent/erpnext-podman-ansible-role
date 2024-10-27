@@ -6,8 +6,8 @@ older versions and other OSes.
 
 ## Usage
 
-If so desired, change the default values for `erpnext_mysql_user_pw` and
-`erpnext_mysql_root_pw` (both are set to `admin` by default).
+If so desired, change the default values for `erpnext_mysql_root_pw`
+(set to `admin` by default).
 
 ```yaml
 - name: Podman configuration
