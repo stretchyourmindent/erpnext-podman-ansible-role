@@ -14,6 +14,7 @@
   loop:
     - /docker/erpnext/sites
     - /docker/erpnext/logs
+    - /docker/erpnext/apps
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
