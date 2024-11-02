@@ -20,7 +20,6 @@ Exec=bash -c 'ls -1 apps > sites/apps.txt; \
   #bench set-config -g db_password $$DB_PASSWORD; \
 Volume=/docker/erpnext/sites:/home/frappe/frappe-bench/sites:z
 Volume=/docker/erpnext/logs:/home/frappe/frappe-bench/logs:z
-Volume=/docker/erpnext/apps:/home/frappe/frappe-bench/apps:z
 Network=erpnext.network:alias=configurator
 Environment=DB_HOST=db
 Environment=DB_PORT="3306"
