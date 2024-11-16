@@ -5,7 +5,7 @@ After=erpnext.service
 
 [Container]
 PodmanArgs=--pod-id-file=%t/erpnext.pod-id
-Image=docker.io/frappe/erpnext:v15.39.3
+Image={{ erpnext_image }}
 ContainerName=erpnext-queue-short
 Exec=bench worker --queue short,default
 Volume=/docker/erpnext/sites:/home/frappe/frappe-bench/sites:z

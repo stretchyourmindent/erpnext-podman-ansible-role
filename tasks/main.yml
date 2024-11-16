@@ -50,23 +50,35 @@
   become: true
   become_user: podman
   loop:
-    - erpnext-create-site.container
-    - erpnext-frontend.container
+    - erpnext-db.container
+    - erpnext-db.volume
     - erpnext-redis-cache.container
+    - erpnext-redis-cache.volume
+    - erpnext-redis-queue.container
     - erpnext-redis-queue.volume
     - erpnext.network
-    - erpnext-backend.container
-    - erpnext-db.container
-    - erpnext-queue-long.container
-    - erpnext-redis-cache.volume
-    - erpnext-scheduler.container
-    - erpnext-configurator.container
-    - erpnext-db.volume
-    - erpnext-queue-short.container
-    - erpnext-redis-queue.container
-    - erpnext-websocket.container
   ansible.builtin.copy:
     src: "{{ item }}"
+    dest: "/docker/systemd/containers/{{ item }}"
+    mode: "0640"
+  notify:
+    - Systemd user daemon-reload
+    - Restart ERPNext service
+
+- name: Generate ERPNext container systemd files
+  become: true
+  become_user: podman
+  loop:
+    - erpnext-backend.container
+    - erpnext-configurator.container
+    - erpnext-create-site.container
+    - erpnext-frontend.container
+    - erpnext-queue-long.container
+    - erpnext-queue-short.container
+    - erpnext-scheduler.container
+    - erpnext-websocket.container
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
     dest: "/docker/systemd/containers/{{ item }}"
     mode: "0640"
   notify:

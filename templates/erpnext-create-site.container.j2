@@ -6,7 +6,7 @@ Requires=erpnext-db.service erpnext-redis-queue.service erpnext-redis-cache.serv
 
 [Container]
 PodmanArgs=--pod-id-file=%t/erpnext.pod-id
-Image=docker.io/frappe/erpnext:v15.39.3
+Image={{ erpnext_image }}
 ContainerName=erpnext-create-site
 Exec=bash -c 'wait-for-it -t 120 db:3306; \
   wait-for-it -t 120 redis-cache:6379; \

@@ -6,7 +6,7 @@ Requires=erpnext-db.service erpnext-redis-queue.service erpnext-redis-cache.serv
 
 [Container]
 PodmanArgs=--pod-id-file=%t/erpnext.pod-id
-Image=docker.io/frappe/erpnext:v15.39.3
+Image={{ erpnext_image }}
 ContainerName=erpnext-configurator
 Exec=bash -c 'ls -1 apps > sites/apps.txt; \
   [ -s sites/common_site_config.json ] || (echo {} > sites/common_site_config.json); \

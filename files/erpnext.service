@@ -10,7 +10,7 @@ Wants=erpnext-frontend.service \
   erpnext-scheduler.service \
   erpnext-queue-short.service \
   erpnext-redis-queue.service \
-  erpnext-websocket.service #\
+  erpnext-websocket.service \
   erpnext-configurator.service \
   erpnext-create-site.service
 Before=erpnext-frontend.service \
@@ -21,7 +21,7 @@ Before=erpnext-frontend.service \
   erpnext-scheduler.service \
   erpnext-queue-short.service \
   erpnext-redis-queue.service \
-  erpnext-websocket.service #\
+  erpnext-websocket.service \
   erpnext-configurator.service \
   erpnext-create-site.service
 
