@@ -10,6 +10,7 @@ Image={{ erpnext_image }}
 ContainerName=erpnext-configurator
 Exec=bash -c 'ls -1 apps > sites/apps.txt; \
   [ -s sites/common_site_config.json ] || (echo {} > sites/common_site_config.json); \
+  bench set-config -g host_name $$FRAPPE_HOST_NAME; \
   bench set-config -g db_host $$DB_HOST; \
   bench set-config -gp db_port $$DB_PORT; \
   bench set-config -g root_password $$MYSQL_ROOT_PASSWORD; \
@@ -21,6 +22,7 @@ Exec=bash -c 'ls -1 apps > sites/apps.txt; \
 Volume=/docker/erpnext/sites:/home/frappe/frappe-bench/sites:z
 Volume=/docker/erpnext/logs:/home/frappe/frappe-bench/logs:z
 Network=erpnext.network:alias=configurator
+Environment=FRAPPE_HOST_NAME={{ erpnext_base_url }}
 Environment=DB_HOST=db
 Environment=DB_PORT="3306"
 Environment=REDIS_CACHE=redis-cache:6379
