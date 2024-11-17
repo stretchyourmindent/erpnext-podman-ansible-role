@@ -25,6 +25,7 @@ Label="traefik.enable=true"
 Label="traefik.http.routers.erpnext.rule=Host(`erpnext.syme.biz`)"
 Label="traefik.http.routers.erpnext.entrypoints=websecure"
 Label="traefik.http.services.erpnext-websecure.loadbalancer.server.port=8080"
+GlobalArgs=--log-level=warn
 
 [Service]
 Restart=on-failure

@@ -11,6 +11,7 @@ Exec=bench worker --queue long,default,short
 Volume=/docker/erpnext/sites:/home/frappe/frappe-bench/sites:z
 Volume=/docker/erpnext/logs:/home/frappe/frappe-bench/logs:z
 Network=erpnext.network:alias=queue-long
+GlobalArgs=--log-level=warn
 
 [Service]
 Restart=on-failure

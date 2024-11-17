@@ -14,6 +14,7 @@ HealthStartPeriod=20s
 HealthRetries=5
 HealthTimeout=5s
 Network=erpnext.network:alias=db
+GlobalArgs=--log-level=warn
 Secret=erpnext_mysql_root_pw,type=env,target=MYSQL_ROOT_PASSWORD
 #Secret=erpnext_mysql_user_pw,type=env,target=DB_PASSWORD
 Exec=--character-set-server=utf8mb4 \

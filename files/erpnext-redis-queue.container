@@ -14,6 +14,7 @@ HealthStartPeriod=20s
 HealthRetries=5
 HealthTimeout=3s
 Network=erpnext.network:alias=redis-queue
+GlobalArgs=--log-level=warn
 
 [Service]
 Restart=on-failure

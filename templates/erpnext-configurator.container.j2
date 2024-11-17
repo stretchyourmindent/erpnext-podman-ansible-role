@@ -28,6 +28,7 @@ Environment=REDIS_QUEUE=redis-queue:6379
 Environment=SOCKETIO_PORT="9000"
 #Secret=erpnext_mysql_user_pw,type=env,target=DB_PASSWORD
 Secret=erpnext_mysql_root_pw,type=env,target=MYSQL_ROOT_PASSWORD
+GlobalArgs=--log-level=warn
 
 [Service]
 Restart=no
