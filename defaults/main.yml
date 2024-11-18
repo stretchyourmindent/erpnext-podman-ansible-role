@@ -10,3 +10,4 @@ erpnext_mysql_root_pw: admin
 erpnext_image: docker.io/frappe/erpnext:v15.39.3
 erpnext_base_url: https://erpnext.example.com
 erpnext_host: erpnext.example.com
+erpnext_newsite_extra_args:

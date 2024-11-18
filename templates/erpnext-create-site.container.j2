@@ -24,7 +24,9 @@ Exec=bash -c 'wait-for-it -t 120 db:3306; \
     fi; \
   done; \
   echo "sites/common_site_config.json found"; \
-  [ -d sites/frontend ] || bench new-site --no-mariadb-socket --admin-password=admin --db-root-password=$$MYSQL_ROOT_PASSWORD --install-app erpnext --set-default frontend;'
+  [ -d sites/frontend ] || bench new-site --no-mariadb-socket --admin-password=admin --db-root-password=$$MYSQL_ROOT_PASSWORD --install-app erpnext {{ erpnext_newsite_extra_args }} --set-default frontend; \
+  bench --site frontend set-config host_name {{ erpnext_base_url }}; \
+  '
 Volume=/docker/erpnext/sites:/home/frappe/frappe-bench/sites:z
 Volume=/docker/erpnext/logs:/home/frappe/frappe-bench/logs:z
 Network=erpnext.network:alias=create-site
