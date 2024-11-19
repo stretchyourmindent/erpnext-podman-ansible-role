@@ -13,12 +13,16 @@ Exec=bash -c 'ls -1 apps > sites/apps.txt; \
   bench set-config -g host_name $$FRAPPE_HOST_NAME; \
   bench set-config -g db_host $$DB_HOST; \
   bench set-config -gp db_port $$DB_PORT; \
+  bench set-config -g restart_supervisor_on_update true; \
+  bench set-config -g restart_systemd_on_update true; \
   bench set-config -g root_password $$MYSQL_ROOT_PASSWORD; \
   bench set-config -g redis_cache "redis://$$REDIS_CACHE"; \
   bench set-config -g redis_queue "redis://$$REDIS_QUEUE"; \
   bench set-config -g redis_socketio "redis://$$REDIS_QUEUE"; \
   bench set-config -gp socketio_port $$SOCKETIO_PORT;'
   #bench set-config -g db_password $$DB_PASSWORD; \
+  # restart flags added per:
+  # https://discuss.frappe.io/t/frappe-docker-2023-production-setup-password-reset-email-link-added-with-port-8000/101844/6
 Volume=/docker/erpnext/sites:/home/frappe/frappe-bench/sites:z
 Volume=/docker/erpnext/logs:/home/frappe/frappe-bench/logs:z
 Network=erpnext.network:alias=configurator
