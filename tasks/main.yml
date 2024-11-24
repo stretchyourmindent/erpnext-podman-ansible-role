@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 ---
 - name: Create ERPNext dir
+  remote_user: podman
   become: true
   become_user: podman
   ansible.builtin.file:
@@ -20,13 +21,14 @@
     mode: "2777"
 
 - name: Store ERPNext secrets
-  become: true
-  become_user: podman
+  remote_user: podman
   loop:
     # - name: erpnext_mysql_user_pw
     #   data: "{{ erpnext_mysql_user_pw }}"
     - name: erpnext_mysql_root_pw
       data: "{{ erpnext_mysql_root_pw }}"
+  loop_control:
+    label: "{{ item.name }}"
   containers.podman.podman_secret:
     state: present
     name: "{{ item.name }}"
