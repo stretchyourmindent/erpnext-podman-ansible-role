@@ -1,12 +1,10 @@
 # SPDX-License-Identifier: MIT
 [Unit]
-BindsTo=erpnext.service
-After=erpnext.service erpnext-websocket.service
 Requires=erpnext-websocket.service
 
 [Container]
-PodmanArgs=--pod-id-file=%t/erpnext.pod-id
-Image={{ erpnext_image }}
+Pod=erpnext.pod
+Image=erpnext.image
 ContainerName=erpnext-frontend
 Exec=nginx-entrypoint.sh
 Volume=/docker/erpnext/sites:/home/frappe/frappe-bench/sites:z

@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: MIT
+[Unit]
+Description=ERPNext Pod
+
+[Pod]
+PodName=erpnext
+GlobalArgs=--log-level=warn
+
+[Service]
+Restart=on-failure
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

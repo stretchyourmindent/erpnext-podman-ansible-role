@@ -1,12 +1,10 @@
 # SPDX-License-Identifier: MIT
 [Unit]
-BindsTo=erpnext.service
-After=erpnext.service erpnext-db.service erpnext-redis-queue.service erpnext-redis-cache.service
 Requires=erpnext-db.service erpnext-redis-queue.service erpnext-redis-cache.service
 
 [Container]
-PodmanArgs=--pod-id-file=%t/erpnext.pod-id
-Image={{ erpnext_image }}
+Pod=erpnext.pod
+Image=erpnext.image
 ContainerName=erpnext-configurator
 Exec=bash -c 'ls -1 apps > sites/apps.txt; \
   [ -s sites/common_site_config.json ] || (echo {} > sites/common_site_config.json); \

@@ -1,11 +1,7 @@
 # SPDX-License-Identifier: MIT
-[Unit]
-BindsTo=erpnext.service
-After=erpnext.service
-
 [Container]
-PodmanArgs=--pod-id-file=%t/erpnext.pod-id
-Image={{ erpnext_image }}
+Pod=erpnext.pod
+Image=erpnext.image
 ContainerName=erpnext-queue-long
 Exec=bench worker --queue long,default,short
 Volume=/docker/erpnext/sites:/home/frappe/frappe-bench/sites:z

@@ -35,21 +35,22 @@
     - Systemd user daemon-reload
     - Restart ERPNext service
 
-- name: Copy ERPNext systemd service file
-  become: true
-  become_user: podman
-  ansible.builtin.copy:
-    src: erpnext.service
-    dest: /docker/systemd/services/erpnext.service
-    mode: "0640"
-  notify:
-    - Systemd user daemon-reload
-    - Restart ERPNext service
+# - name: Copy ERPNext systemd service file
+#   become: true
+#   become_user: podman
+#   ansible.builtin.copy:
+#     src: erpnext.service
+#     dest: /docker/systemd/services/erpnext.service
+#     mode: "0640"
+#   notify:
+#     - Systemd user daemon-reload
+#     - Restart ERPNext service
 
 - name: Copy static ERPNext systemd files
   become: true
   become_user: podman
   loop:
+    - erpnext.pod
     - erpnext-db.container
     - erpnext-db.volume
     - erpnext-redis-cache.container
@@ -57,6 +58,11 @@
     - erpnext-redis-queue.container
     - erpnext-redis-queue.volume
     - erpnext.network
+    - erpnext-backend.container
+    - erpnext-queue-long.container
+    - erpnext-queue-short.container
+    - erpnext-scheduler.container
+    - erpnext-websocket.container
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/docker/systemd/containers/{{ item }}"
@@ -69,14 +75,10 @@
   become: true
   become_user: podman
   loop:
-    - erpnext-backend.container
     - erpnext-configurator.container
     - erpnext-create-site.container
     - erpnext-frontend.container
-    - erpnext-queue-long.container
-    - erpnext-queue-short.container
-    - erpnext-scheduler.container
-    - erpnext-websocket.container
+    - erpnext.image
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/docker/systemd/containers/{{ item }}"
