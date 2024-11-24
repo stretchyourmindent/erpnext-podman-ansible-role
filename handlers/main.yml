@@ -12,6 +12,6 @@
   become_user: podman
   ansible.builtin.systemd_service:
     scope: user
-    name: erpnext
+    name: erpnext-pod
     enabled: true
     state: restarted
