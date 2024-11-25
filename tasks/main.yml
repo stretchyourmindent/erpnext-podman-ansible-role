@@ -80,7 +80,6 @@
     - erpnext-configurator.container
     - erpnext-create-site.container
     - erpnext-frontend.container
-    - erpnext.image
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/docker/systemd/containers/{{ item }}"
