@@ -11,3 +11,4 @@ erpnext_image: docker.io/frappe/erpnext:latest
 erpnext_base_url: https://erpnext.example.com
 erpnext_host: erpnext.example.com
 erpnext_newsite_extra_args:
+erpnext_image_template_path: erpnext.image.j2

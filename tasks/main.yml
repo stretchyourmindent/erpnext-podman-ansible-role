@@ -89,6 +89,17 @@
     - Systemd user daemon-reload
     - Restart ERPNext service
 
+- name: Generate ERPNext image container systemd file
+  become: true
+  become_user: podman
+  ansible.builtin.template:
+    src: "{{ erpnext_image_template_path }}"
+    dest: "/docker/systemd/containers/erpnext.image"
+    mode: "0640"
+  notify:
+    - Systemd user daemon-reload
+    - Restart ERPNext service
+
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
 
